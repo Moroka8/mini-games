@@ -1,0 +1,311 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/style.css')}}">
+    <h1>Hi, {{ user.username }}!</h1>
+	<p id="id">Your ID:{{current_id}}</p>
+	<h2>Your balance:</h2>
+	<h2 id="balance">{{balance}}</h2>
+	<div id="flip_box">
+		<h2 id="status"></h2>
+		<form action="" method="post">
+			{{ stake.hidden_tag() }}
+			<p>
+				{{stake.stake.label}}<br>
+				{{stake.stake(size=32)}}
+				{% for error in stake.stake.errors %}
+					<span style="color: red;">[{{ error }}]</span>
+				{% endfor %}
+			</p>
+		</form>
+		<div id="heads">
+			<p style="padding-left:5px">Орел</p>
+		</div>
+		<div id="tails">
+			<p style="padding-left:1px">Решка</p>
+		</div>
+	</div>
+	<div id="case_box1">
+		<a href="{{url_for('case',rare='10')}}">
+			<div class="case">
+				<p>Кейс 10</p>
+			</div>
+		</a>
+		<a href="{{url_for('case',rare='25')}}">
+			<div class="case">
+				<p>Кейс 25</p>
+			</div>
+		</a>
+		<a href="{{url_for('case',rare='50')}}">
+			<div class="case">
+				<p>Кейс 50</p>
+			</div>
+		</a>
+		<a href="{{url_for('case',rare='100')}}">
+			<div class="case">
+				<p>Кейс 100</p>
+			</div>
+		</a>
+		<a href="{{url_for('case',rare='250')}}">
+			<div class="case">
+				<p>Кейс 250</p>
+			</div>
+		</a>
+		<a href="{{url_for('case',rare='500')}}">
+			<div class="case">
+				<p> Кейс 500</p>
+			</div>
+		</a>
+	</div>
+	<div id="case_box2">
+		<div class="case" style="background-color:grey;width:56px;">
+		</div>
+		<div class="case" style="background-color:blue;width:58px;">
+		</div>
+		<div class="case" style="background-color:green;width:59px;">
+		</div>
+		<div class="case" style="background-color:purple;width:67px;">
+		</div>
+		<div class="case" style="background-color:red;width:69px;">
+		</div>
+		<div class="case" style="background-color:orange;width:70px;">
+		</div>
+	</div>
+	<div id="playrooms_box">
+		<h1>Playrooms</h1>
+		<div id="table_playroom">
+			<table cellspacing="10" id="table" frame="border">
+				<tr>
+					<td>Number of playroom</td>
+					<td>First stake</td>
+					<td>ID first player</td>
+					<td>Second stake</td>
+					<td>ID second player</td>
+					<td>Third stake</td>
+					<td>ID third player</td>
+					<td>Winner</td>
+					<td>Join</td>
+				</tr>
+				{% for i in range(0,count) %}
+					<tr>
+					{%for a in range(0,7)%}
+						<td class="class{{a}}" id="column{{i}}_{{a}}">{{info[i][a]}}</td>
+					{% endfor %}
+						<td id="column{{i}}_7">
+						</td>
+						<td id="column{{i}}_8">
+							<a href="javascript:PopUpJoin('join_in_playroom{{i}}')">
+								<div>Join</div>
+							</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</table>
+		</div>
+		<div>
+			<a href="javascript:PopUpShow()">
+				<div id="Create">
+					Create a playroom
+				</div>
+			</a>
+		</div>
+		<div class="popup" id="popup">
+			<div class="popup-content">
+				<a href="javascript:PopUpHide()" style="float:right">Close</a>
+				<h2>Your balance:{{balance}}</h2>
+				<p style="color:red" id="status_popup"></p>
+				<div id="div_div_popup_form">
+					<div id="div_popup_form">
+						<form name="popup_form" action="" method="post">
+							{{ stake1.hidden_tag() }}
+							<p>
+								{{stake1.stake1.label}}<br>
+								{{stake1.stake1(size=32)}}
+								{% for error in stake1.stake1.errors %}
+									<span style="color: red;">[{{ error }}]</span>
+								{% endfor %}
+							</p>
+							<input class="new_but" type="button" id="new_playroom" value="Send">
+							{% for i in range(0,count) %}
+								<input class="but" type="button" id="join_in_playroom{{i}}" value="Send in {{info[i][0]}}">
+							{% endfor %}
+							{% if wrong %}
+							<p style="color:red;">{{wrong}}</p>
+							{% endif %}
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="footer">
+		<a href="{{url_for('free_prize')}}">
+			<div id="free">
+				ХАЛЯВА
+			</div>
+		</a>
+	</div>
+<script>
+	function PopUpHide(){
+    	$("#popup").hide();
+    	$("#new_playroom").hide()
+    	for(let i=0;i<count;i++){
+    		$("#join_in_playroom"+i).hide()
+    	}
+    	document.getElementById('status_popup').innerHTML=""
+	}
+	function PopUpShow(){
+		$('#popup').show()
+		$("#new_playroom").show()
+	}
+	function PopUpJoin(button_show){
+		console.log(button_show)
+		$('#popup').show()
+		$(`#${button_show}`).show()
+	}
+	function update_playroom(){
+		function strPad() {//повторение функции для вставки в существующую комнату
+    		var stake=document.getElementById('stake1').value;
+			var send_in=this.value.slice(8);
+			console.log(send_in)
+			stake_playroom(send_in,stake)
+		}
+		function newstrPad(){//повторение функции для создания новой комнаты 
+		var stake=document.getElementById('stake1').value;
+		console.log(stake);
+		stake_playroom('new',stake)
+    	};
+		try{//если новый count
+			count=response.new_count
+		}
+		catch{//иначе используем старый
+			count={{count}}
+		}
+		$.ajax({
+			type:"POST",
+			url:"/update_playroom",
+			success:function b(response){
+				if (response.new_table!=undefined){//прилетела новая таблица
+					var table=document.getElementById('table');
+					count=response.new_count
+					console.log(table)
+					table.remove()//старую удаляем
+					var tableArr=['<table cellspacing="10" id="table" frame="border">'];
+					tableArr.push('<tr><td>Number of playroom</td><td>First stake</td><td>ID first player</td><td>Second stake</td><td>ID second player</td><td>Third stake</td><td>ID third player</td><td>Winner</td><td>Join</td></tr>');//самый верхний столбец
+					for (let z=0; z<response.new_count;z++){
+						var tr="<tr>"
+						var winner_and_join="</td><td id='column"+z+"_8'><a href='javascript:PopUpJoin(&quot;join_in_playroom"+z+"&quot;)'><div>Join</div></a></td></tr>"//последние 2 ячейки столбца
+					    for(let a=0;a<8;a++){
+					    	tr+="<td class='class"+a+"'id='column"+z+"_"+a+"'>"+response.new_table[z][a]+"</td>"}//распихиваем инфу по таблице
+						tableArr.push(tr)
+						tableArr.push(winner_and_join)
+					}
+					tableArr.push('</table>');
+					document.getElementById('table_playroom').innerHTML=tableArr.join('\n')//новая табличка сделана
+					var popup_form=document.getElementById("div_popup_form");
+					console.log(popup_form)
+					popup_form.remove()
+					var popup_formArr=['<div id="div_popup_form"><form id="popup_form" action="" method="post">'];
+					popup_formArr.push('<label for="stake1">Stake</label><input id="stake1" name="stake1" required="" size="32" type="text" value=""><input type="button" class="new_but" id="new_playroom" value="Send" style="display: none;margin-top:10px">')//обновляем popup
+					for (let c=0;c<response.new_count;c++){
+						popup_formArr.push('<input class="but" type="button" id="join_in_playroom'+c+'" value="Send in '+response.new_table[c][0]+'" style="display: inline-block;margin-top:10px">')//пихаем новые кнопки
+					}
+					popup_formArr.push('</form></div>')
+					document.getElementById('div_div_popup_form').innerHTML=popup_formArr.join('\n')
+					for(let i=0;i<response.new_count;i++){
+			    		$("#join_in_playroom"+i).hide()//обязательно прячем, вдруг увидят
+			    	}
+			    	var button=document.getElementsByClassName("but")
+			    	for(let i=0;i<button.length;i++){
+			    		button[i].onclick=strPad;//заново привязываем
+			    	}
+			    	var new_button=document.getElementsByClassName("new_but")
+			    	for(let k=0;k<new_button.length;k++){
+			    		new_button[k].onclick=newstrPad;//аналогично верхнему, но уже для кнопки создания новых комнат
+			    	}
+
+
+				}		
+				else {
+					for (let i=0;i<response.new_count;i++){//получаем новую инфу по комнатам
+						for (let b=0;b<8;b++){
+							$('#column'+i+'_'+b).html(response.info[i][b])//берем и добавляем
+						}
+					}
+						
+				}
+			}
+		})
+	}
+	$(document).ready(function(){
+		update_playroom();
+		PopUpHide();
+        setInterval(update_playroom,10000)
+    });
+    function stake_playroom(id_playroom,sum_of_stake){
+    	$.ajax({
+    		type:"POST",
+    		url:`/stake_playroom/${id_playroom}/${sum_of_stake}`,
+    		success:function b(responce){
+    			console.log(responce.status)
+    			if (responce.status!=undefined){
+    				$('#status_popup').html(responce.status)//если накосячил, то увидишь ошибку
+    			}
+    			else {
+    				PopUpHide()//а если все ок, то ничего и не увидишь
+    				window.location.reload()//все-таки стоит перезагрузиться (только тому, кто ставит)
+    			}
+    		}
+    	})
+    }
+	function coin_flip(sum_of_stake){
+		$.ajax({
+			type:"POST",
+			url:`/coin_flip/${sum_of_stake}`,
+			success:function b(response){
+				$('#status').html(response.status);
+				$('#balance').html(response.balance)
+			error: function a(error){
+				console.log(error);
+			}
+			}
+		})
+	}
+	$("#heads").on("click",function(){
+		var sum_of_stake=document.getElementById('stake').value
+		if(sum_of_stake<=0){
+			$('#status').html('Stake Error')
+		}
+		else{
+		coin_flip(sum_of_stake)
+		}
+	});
+	$("#tails").on("click",function(){
+		var sum_of_stake=document.getElementById('stake').value
+		if(sum_of_stake<=0){
+			$('#status').html('Stake Error')
+		}
+		else{
+		coin_flip(sum_of_stake)
+		}
+	});
+	$("#new_playroom").on("click",function(){
+		var stake=document.getElementById('stake1').value;
+		console.log(stake);
+		stake_playroom('new',stake)
+    });
+    window.onload=function(){
+    	function strPad() {
+    		var stake=document.getElementById('stake1').value;
+			var send_in=this.value.slice(8);
+			console.log(send_in)
+			stake_playroom(send_in,stake)
+		}
+    	var button=document.getElementsByClassName("but")
+    	for(let i=0;i<button.length;i++){
+    		button[i].onclick=strPad;
+    	}
+    };
+</script>
+{% endblock %}

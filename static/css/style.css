@@ -1,0 +1,92 @@
+.case {
+	float:left;
+	margin-right:10px;
+	background-color:#FEFEFE
+}
+.class2{
+	background-color:green
+}
+.class4{
+	background-color:green
+}
+.class6{
+	background-color:green
+}
+td {
+	color:#fffdf9
+}
+.case{
+	background-color:#0f1112;
+	height:3px;
+}
+.popup{
+    width:100%;
+    min-height:100%;
+    background-color: rgba(0,0,0,0.5);
+    overflow:hidden;
+    position:fixed;
+    top:0px;
+}
+.popup .popup-content{
+	width:260px;
+    margin:40px auto 0px auto;
+    padding:10px;
+    background-color: #151719;
+    border-radius:5px;
+    box-shadow: 0px 0px 10px #000;
+}
+#footer {
+    position: fixed;
+    left: 0; bottom: 0;
+    padding: 10px;
+    background: #39b54a;
+    color: #fff;
+    width: 100%;
+   }
+#id {
+	color:grey;
+	margin-top: -20px
+}
+#balance {
+	color:greenyellow
+}
+#flip_box {
+	padding-bottom:50px;
+	display:none
+}
+#heads {
+	float:left;
+	margin-right:10px;
+	width:50px;
+	background-color:dodgerblue;
+}
+#heads:hover{
+	background-color:lightskyblue;
+}
+#tails {
+	float:left;
+	margin-right:10px;
+	width:50px;
+	background-color:brown
+}
+#tails:hover {
+	background-color:crimson
+}
+#case_box1 {
+	display:none;
+}
+#case_box2 {
+	margin-top:71px;
+	display:none
+}
+#playrooms_box {
+	padding-top:1px
+}
+#Create {
+	width:119px;
+	float:left;
+	padding-top:10px
+}
+#free {
+	padding-left:50%
+}

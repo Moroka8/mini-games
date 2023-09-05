@@ -1,0 +1,68 @@
+* {
+	font-family: 'Rubik', sans-serif;
+}
+a { 
+	text-decoration: none;
+}
+h1,h2,h3{
+	color:#fffdf9
+}
+input{
+	background-color:#0f1112;
+	border-color:#585858;
+	color:#fffdf9
+}
+label,p{
+	color:#fffdf9
+}
+body {
+	background-color:#0f1112
+}
+#header {
+	background-color:#053488;
+	padding-top:16px;
+	border-radius:20px;
+	width:600px;
+	margin:auto;
+}
+#menu {
+	float:right;
+	margin-right:80px;
+	color:#fffdf9;
+	margin-top:-8px
+}
+#ico {
+	float:left;
+	padding-right:10px
+}
+.main_ico {
+	border-radius:500px;
+	width:20px;
+	height:20px
+}
+#games {
+	padding-right:50%;
+	color:#fffdf9
+}
+#flip,#case,#playroom {
+	float:right;
+	margin-right:30px;
+	margin-top:-8px
+}
+.case {
+	float:left;
+	margin-right:10px;
+	background-color:#FEFEFE
+}
+.class2{
+	background-color:green
+}
+.class4{
+	background-color:green
+}
+.class6{
+	background-color:green
+}
+td {
+	color:#fffdf9
+}

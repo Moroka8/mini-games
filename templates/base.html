@@ -1,0 +1,77 @@
+<html>
+    <head>
+    	<meta http-equiv="Cache-Control" content="no-cache">
+    	<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap" rel="stylesheet">
+    	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/main_style.css')}}">
+        {% if title %}
+        <title>{{ title }} - Project</title>
+        {% else %}
+        <title>Casino</title>
+        {% endif %}
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    </head>
+    <body vlink="#fffff" link="fffff" id="body">
+	<div id="header">
+        <div id="menu" {% if playroom %} style="margin-right:80px" {% else %} style="margin-right:34%" {% endif %}>
+			{%if ico%}
+				<div id="ico">
+					<a href="{{url_for('options')}}"><img class="main_ico" src="{{ url_for('static', filename='ico/'+ico)}}"></a>
+				</div>
+			{%endif%}
+			Project:
+			<a href="{{ url_for('index') }}">{{home}}</a>
+			<a href="{{ url_for('login') }}">{{login}}</a>
+			<a href="{{ url_for('sign_up') }}">{{sign_up}}</a>
+			<a href="{{url_for('exit')}}">{{escape}}</a>
+		</div>
+		<div id="games" >
+			<div id="flip">{{flip}}</div>
+			<div id="case">{{case}}</div>
+			<div id="playroom">{{playroom}}</div>
+		</div>
+		<br>
+	</div>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </body>
+<script>
+	$("#flip").on("click",function(){
+		var el1 = document.getElementById('flip_box');
+		var el2 = document.getElementById('case_box1');
+		var el3 = document.getElementById('case_box2');
+		var el4 = document.getElementById('playrooms_box');
+		el1.style.display = 'initial';
+		el2.style.display = 'none';
+		el3.style.display = 'none';
+		el4.style.display = 'none';
+	});
+	$("#case").on("click",function(){
+		var el1 = document.getElementById('flip_box');
+		var el2 = document.getElementById('case_box1');
+		var el3 = document.getElementById('case_box2');
+		var el4 = document.getElementById('playrooms_box');
+		el1.style.display = 'none';
+		el2.style.display = 'initial';
+		el3.style.display = 'block';
+		el4.style.display = 'none';
+	});
+	$("#playroom").on("click",function(){
+		var el1 = document.getElementById('flip_box');
+		var el2 = document.getElementById('case_box1');
+		var el3 = document.getElementById('case_box2');
+		var el4 = document.getElementById('playrooms_box');
+		el1.style.display = 'none';
+		el2.style.display = 'none';
+		el3.style.display = 'none';
+		el4.style.display = 'initial';
+	});
+</script>
+</html>

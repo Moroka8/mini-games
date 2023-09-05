@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<style>
+	h2{
+		float:left;
+	}
+</style>
+	<h1>{{message}}</h1>
+		<h2 id="h"></h2>
+		<h2>{{colon}}</h2>
+		<h2 id="min"></h2>
+		<h2>{{colon}}</h2>
+		<h2 id="sec"></h2>
+	</div>
+	{% if button %}
+	<form action="{{url_for('action')}}" method="post">
+		<input type="submit" name="sub" value="Take">
+	</form>
+	{% endif %}
+<script>
+	function check_time() {
+		$.ajax({
+			type:"POST",
+			url:"/check_time",
+			success:function b(response){
+				console.log(response),
+				$('#sec').html(response.seconds),
+				$('#min').html(response.minutes),
+				$('#h').html(response.hours)
+			error: function a(error){
+				console.log(error);
+			}
+			}
+		});
+	}
+	$(document).ready(function(){
+        setInterval(check_time,1000)
+    });
+</script>
+{% endblock %}

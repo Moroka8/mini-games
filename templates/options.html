@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<p>Avatar (only PNG)</p>
+	<img src="{{ url_for('static', filename='ico/'+ico)}}" style="border-radius:500px;width:100px;height:100px"></a>
+	<form action="{{url_for('upload_file')}}" method="POST" enctype="multipart/form-data" style="padding-top:20px">
+		<input type="file" name="file">
+		<input type="submit" value="Send">
+	</form>
+	<br>
+	<p>Change Login (and nickname too)</p>
+	<form action="" method="post">
+		{{log_form.hidden_tag()}}
+		<p>
+			{{log_form.login.label}}<br>
+			{{log_form.login(size=32)}}
+		</p>
+		<p>{{ log_form.submit() }}</p>
+		{% if wrong %}
+			<p style="color:red;">{{wrong}}</p>
+		{% endif %}
+		{% if success %}
+			<p style="color:green;">{{success}}</p>
+		{% endif %}
+	</form>
+	<br>
+	<p>Change password</p>
+	<form action="" method="post">
+		{{pass_form.hidden_tag()}}
+		<p>
+			{{pass_form.old_pass.label}}<br>
+			{{pass_form.old_pass(size=32)}}
+		</p>
+		<p>
+			{{pass_form.new_pass.label}}<br>
+			{{pass_form.new_pass(size=32)}}
+		</p>
+		<p>
+			{{pass_form.repeat_pass.label}}<br>
+			{{pass_form.repeat_pass(size=32)}}
+		</p>
+		<p>{{ pass_form.submit() }}</p>
+		{% if wrong_pass %}
+			<p style="color:red;">{{wrong_pass}}</p>
+		{% endif %}
+		{% if success_pass %}
+			<p style="color:green;">{{success_pass}}</p>
+		{% endif %}
+{% endblock %}

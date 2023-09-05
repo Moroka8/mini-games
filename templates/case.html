@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<div style="margin-bottom:100px">
+		<h1>{{case_name}}</h1>
+		<h2 id='status'></h2>
+		<h2 style="float:left">Your balance:</h2>
+		<h2 style="float:left;color:greenyellow;padding-left:10px" id="balance">{{balance}}</h2>
+	</div>
+	<input type="button" id="open_case" value="Open">
+	<h2 id="win"></h2>
+<script>
+	function roll() {
+		$.ajax({
+			type:"POST",
+			url:"/open_case",
+			success:function b(response){
+				if (response.status!=undefined){
+					$('#status').html(response.status)//тут видно все твои косяки
+				}
+				else{
+					$('#balance').html(response.balance)//обновляем баланс и сумму выигрыша
+					console.log(response.win_prize),
+					$('#win').html(response.win_prize)
+				}
+			error: function a(error){
+				console.log(error);
+			}
+			}
+		});
+	}
+	function sleep(milliseconds) {//уже ненужная функция, но удалять жалко
+	  const date = Date.now();
+	  let currentDate = null;
+	  do {
+		currentDate = Date.now();
+	  } while (currentDate - date < milliseconds);
+	}
+	function fake_roll(){
+		var arr={{mb_win}};//список циферок
+		var rand=Math.floor(Math.random()*arr.length);//что-то на математическом
+		rand=Math.floor(Math.random()*arr.length);//стоп, а зачем я две одинаковых переменных объявил, какую теперь удалять? Ну пусть обе будут
+		$('#win').html(arr[rand]);
+		i++//крутим циферки до посинения
+		if (i==100){
+			clearInterval(x)//глуши шарманку
+			roll();//и скажи нормально, что я выиграл?
+		}
+	}
+	$("#open_case").on("click",function(){
+		var balance=$('#balance').html()
+		if(balance<=0){
+			$('#status').html('Balance Error')
+		}
+		else{
+			i=0
+			x=setInterval(fake_roll,10)
+		}
+    });
+</script>
+{% endblock %}
